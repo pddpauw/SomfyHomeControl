@@ -6,3 +6,6 @@ Note that Somfy works with frequency 433.42Mhz.  Most transceivers work on 433.9
 Arduino has Ethernet shield and additional shield with Aurel transciever and antenna for 433.42Mhz.
 
 Node Red is sending commands over UDP to the Arduino.
+
+
+![Arduino setup](https://github.com/pddpauw/SomfyHomeControl/assets/148589775/f6d6f1bb-5619-47e1-8f4a-da227e737340)
