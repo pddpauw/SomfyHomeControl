@@ -1,0 +1,558 @@
+[
+    {
+        "id": "1bb6e97e.7ff677",
+        "type": "tab",
+        "label": "SunScreens",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "71e58d31.0bbc14",
+        "type": "function",
+        "z": "1bb6e97e.7ff677",
+        "name": "output modifier",
+        "func": "var str = msg.payload;\nvar temp = str.split(/[:=]/);\nvar type = temp[0];\nvar sensor = temp[1];\nvar value = temp[2];\nvar msgraamhaard=null;\nvar msgraamliving=null;\nvar msgscreenhaard=null;\nvar msgscreenliving=null;\n\n\nif(type==\"REPLY\"){\n     if (sensor==\"raamhaard\"){  // send to third outptu\n       flow.set(\"statusraamhaard\",value);\n       msgraamhaard = {payload:value};\n    }  \n    if (sensor==\"raamliving\"){  // send to third outptu\n       flow.set(\"statusraamliving\",value);\n       msgraamliving = {payload:value};\n    }   \n    if (sensor==\"screenhaard\"){  // send to third outptu\n       flow.set(\"statusscreenhaard\",value);\n       msgscreenhaard = {payload:value};\n    } \n    if (sensor==\"screenliving\"){  // send to third outptu\n       flow.set(\"statusscreenliving\",value);\n       msgscreenliving = {payload:value};\n    }\n    \n}\nvar msglast={payload:\"reset\"}\nif (msg.payload===\"\"){\n    msglast = {payload:0};\n}\n\nreturn[msgraamhaard,msgraamliving,msgscreenhaard,msgscreenliving,msglast];\n",
+        "outputs": 5,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 780,
+        "wires": [
+            [],
+            [],
+            [],
+            [],
+            [
+                "70a7a471.65176c"
+            ]
+        ]
+    },
+    {
+        "id": "571ddea9.cc6c",
+        "type": "udp in",
+        "z": "1bb6e97e.7ff677",
+        "name": "",
+        "iface": "",
+        "port": "1243",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 182,
+        "y": 779,
+        "wires": [
+            [
+                "71e58d31.0bbc14",
+                "a63ba441.94b858"
+            ]
+        ]
+    },
+    {
+        "id": "b2521329.a255a",
+        "type": "udp out",
+        "z": "1bb6e97e.7ff677",
+        "name": "",
+        "addr": "192.168.15.47",
+        "iface": "",
+        "port": "1235",
+        "ipv": "udp4",
+        "outport": "8005",
+        "base64": false,
+        "multicast": "false",
+        "x": 1870,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "b5114b5e.098878",
+        "type": "ui_button",
+        "z": "1bb6e97e.7ff677",
+        "name": "raam living omlaag",
+        "group": "fc8e1b14.230488",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "omlaag",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "SEND=raamliving:omlaag",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1490,
+        "y": 520,
+        "wires": [
+            [
+                "b2521329.a255a"
+            ]
+        ]
+    },
+    {
+        "id": "e09a83ab.d013e",
+        "type": "ui_switch",
+        "z": "1bb6e97e.7ff677",
+        "name": "",
+        "label": "zonnewering_auto",
+        "tooltip": "",
+        "group": "fc8e1b14.230488",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 770,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "38bae4c5.ea242c",
+        "type": "ui_button",
+        "z": "1bb6e97e.7ff677",
+        "name": "raam haard omlaag",
+        "group": "fc8e1b14.230488",
+        "order": 7,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "omlaag",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "SEND=raamhaard:omlaag",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1490,
+        "y": 660,
+        "wires": [
+            [
+                "b2521329.a255a"
+            ]
+        ]
+    },
+    {
+        "id": "13407bef.18ef64",
+        "type": "ui_button",
+        "z": "1bb6e97e.7ff677",
+        "name": "screen living omlaag",
+        "group": "fc8e1b14.230488",
+        "order": 10,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "omlaag",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "SEND=screenliving:omlaag",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1500,
+        "y": 980,
+        "wires": [
+            [
+                "b2521329.a255a"
+            ]
+        ]
+    },
+    {
+        "id": "324809a3.1fc616",
+        "type": "ui_button",
+        "z": "1bb6e97e.7ff677",
+        "name": "screen haard omlaag",
+        "group": "fc8e1b14.230488",
+        "order": 13,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "omlaag",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "SEND=screenhaard:omlaag",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1500,
+        "y": 1160,
+        "wires": [
+            [
+                "b2521329.a255a"
+            ]
+        ]
+    },
+    {
+        "id": "6171e8a7.276338",
+        "type": "ui_button",
+        "z": "1bb6e97e.7ff677",
+        "name": "raam living omhoog",
+        "group": "fc8e1b14.230488",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "omhoog",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "SEND=raamliving:omhoog",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1490,
+        "y": 480,
+        "wires": [
+            [
+                "b2521329.a255a"
+            ]
+        ]
+    },
+    {
+        "id": "370b0bbd.11c7f4",
+        "type": "ui_button",
+        "z": "1bb6e97e.7ff677",
+        "name": "raam haard omhoog",
+        "group": "fc8e1b14.230488",
+        "order": 6,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "omhoog",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "SEND=raamhaard:omhoog",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1500,
+        "y": 620,
+        "wires": [
+            [
+                "b2521329.a255a"
+            ]
+        ]
+    },
+    {
+        "id": "3e48e0d1.26091",
+        "type": "ui_button",
+        "z": "1bb6e97e.7ff677",
+        "name": "screen living omhoog",
+        "group": "fc8e1b14.230488",
+        "order": 9,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "omhoog",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "SEND=screenliving:omhoog",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1500,
+        "y": 940,
+        "wires": [
+            [
+                "b2521329.a255a"
+            ]
+        ]
+    },
+    {
+        "id": "112a0231.c2b1de",
+        "type": "ui_button",
+        "z": "1bb6e97e.7ff677",
+        "name": "screen haard omhoog",
+        "group": "fc8e1b14.230488",
+        "order": 12,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "omhoog",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "SEND=screenhaard:omhoog",
+        "payloadType": "str",
+        "topic": "",
+        "x": 1500,
+        "y": 1120,
+        "wires": [
+            [
+                "b2521329.a255a"
+            ]
+        ]
+    },
+    {
+        "id": "70a7a471.65176c",
+        "type": "trigger",
+        "z": "1bb6e97e.7ff677",
+        "name": "",
+        "op1": "online",
+        "op2": "offline",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "10",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 670,
+        "y": 920,
+        "wires": [
+            [
+                "389689.311a7978"
+            ]
+        ]
+    },
+    {
+        "id": "389689.311a7978",
+        "type": "function",
+        "z": "1bb6e97e.7ff677",
+        "name": "offlinecheck",
+        "func": "var msg1;\nif (msg.payload == \"offline\"){\n    msg1 = {payload:\"NOK\",color:\"red\"};\n    //local.set(\"ScreensOffline\",true);    \n}\nif (msg.payload == \"online\"){\n    msg1 = {payload:\"OK\",color:\"green\"};\n    //flow.set(\"ScreensOffline\",false);    \n}\n\nreturn msg1;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 864,
+        "y": 919,
+        "wires": [
+            [
+                "acba03b8.9d581"
+            ]
+        ]
+    },
+    {
+        "id": "acba03b8.9d581",
+        "type": "ui_text",
+        "z": "1bb6e97e.7ff677",
+        "group": "608a517f.29a1e",
+        "order": 1,
+        "width": 2,
+        "height": 1,
+        "name": "",
+        "label": "Screens",
+        "format": "<font color='{{msg.color}}'>{{msg.payload}}</font>",
+        "layout": "row-center",
+        "x": 1029.9999923706055,
+        "y": 918.9999923706055,
+        "wires": []
+    },
+    {
+        "id": "3e527526.631a7a",
+        "type": "inject",
+        "z": "1bb6e97e.7ff677",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.3",
+        "topic": "",
+        "payload": "offline",
+        "payloadType": "str",
+        "x": 250,
+        "y": 900,
+        "wires": [
+            [
+                "70a7a471.65176c"
+            ]
+        ]
+    },
+    {
+        "id": "f0149b5b.5a7c28",
+        "type": "function",
+        "z": "1bb6e97e.7ff677",
+        "name": "voor_button_layout",
+        "func": "var msg1=null;\nvar msg2=null;\nif(flow.get('statusscreens_auto')==\"on\"){\n    if (flow.get('statuslichtvoor')==\"on\"){\n        msg1={enabled:false,label:\"\",background:\"green\"};\n        msg2={enabled:false,label:\"\",background:\"white\"};\n        \n    }\n    if (flow.get('statuslichtvoor')==\"off\"){\n        msg1={enabled:false,label:\"\",background:\"white\"};\n        msg2={enabled:false,label:\"\",background:\"red\"};\n        \n    }\n}\nif(flow.get('statuslicht_auto')==\"off\"){\n    if (flow.get('statuslichtvoor')==\"on\"){\n        msg1={enabled:true,label:\"ON\",background:\"green\"};\n        msg2={enabled:true,label:\"OFF\",background:\"grey\"};\n\n    }\n    if (flow.get('statuslichtvoor')==\"off\"){\n        msg1={enabled:true,label:\"ON\",background:\"grey\"};\n        msg2={enabled:true,label:\"OFF\",background:\"red\"};\n        \n    }\n}\nreturn [msg1,msg2];\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 400,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "4821745c.3d455c",
+        "type": "ui_text",
+        "z": "1bb6e97e.7ff677",
+        "group": "fc8e1b14.230488",
+        "order": 2,
+        "width": "2",
+        "height": 1,
+        "name": "",
+        "label": "Raam Living",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 1470,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "61488d9e.b57954",
+        "type": "ui_text",
+        "z": "1bb6e97e.7ff677",
+        "group": "fc8e1b14.230488",
+        "order": 8,
+        "width": "2",
+        "height": 1,
+        "name": "",
+        "label": "Screens Living",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 1480,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "70601655.12e068",
+        "type": "ui_text",
+        "z": "1bb6e97e.7ff677",
+        "group": "fc8e1b14.230488",
+        "order": 5,
+        "width": "2",
+        "height": 1,
+        "name": "",
+        "label": "Raam Haard",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 1470,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "d488c18b.6c1cd",
+        "type": "ui_text",
+        "z": "1bb6e97e.7ff677",
+        "group": "fc8e1b14.230488",
+        "order": 11,
+        "width": "2",
+        "height": 1,
+        "name": "",
+        "label": "Screens Haard",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 1480,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "60da603a.e1bcf",
+        "type": "ping",
+        "z": "1bb6e97e.7ff677",
+        "mode": null,
+        "name": "pinger",
+        "host": "192.168.15.47",
+        "timer": "100",
+        "inputs": 0,
+        "x": 250,
+        "y": 1040,
+        "wires": [
+            [
+                "29210b9f.668e94"
+            ]
+        ]
+    },
+    {
+        "id": "29210b9f.668e94",
+        "type": "switch",
+        "z": "1bb6e97e.7ff677",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 425.3333435058594,
+        "y": 997.3333129882812,
+        "wires": [
+            [
+                "70a7a471.65176c"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a63ba441.94b858",
+        "type": "debug",
+        "z": "1bb6e97e.7ff677",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "fc8e1b14.230488",
+        "type": "ui_group",
+        "name": "Zonnewering",
+        "tab": "ba15e503.cce1c8",
+        "order": 19,
+        "disp": false,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "608a517f.29a1e",
+        "type": "ui_group",
+        "name": "status",
+        "tab": "ba15e503.cce1c8",
+        "order": 1,
+        "disp": false,
+        "width": 6,
+        "collapse": false
+    },
+    {
+        "id": "ba15e503.cce1c8",
+        "type": "ui_tab",
+        "name": "Bediening",
+        "icon": "fa-home",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
